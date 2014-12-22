@@ -15,8 +15,15 @@ OT.Settings = require('./settings').getSettings(env);
 var Database = require('./database');
 var Hapi = require('hapi');
 
+
 var database = new Database();
+OT.database = database;
+OT.Models = require('./models');
+OT.Controllers = require('./controllers');
+
 var server = new Hapi.Server({debug: {request: ['info', 'error']}});
+
+var plugins = require('./routes');
 
 // Expose database
 if (process.env.NODE_ENV === 'test') {
@@ -25,21 +32,6 @@ if (process.env.NODE_ENV === 'test') {
 
 // Create server
 server.connection(OT.Settings.server);
-
-// Add routes
-var plugins = [
-    {
-        register: require('./routes/tasks.js'),
-        options: {
-            database: database
-        }
-    },{
-        register: require('./routes/users.js'),
-        options: {
-            database: database
-        }
-    }
-];
 
 server.register(plugins, function (err) {
     if (err) { throw err; }

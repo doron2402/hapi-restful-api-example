@@ -1,7 +1,7 @@
 'use strict';
 
 var Boom = require('boom');
-var TasksModel = require('../models/Tasks');
+var TasksModel = OT.Models.tasks;
 
 function TasksController(database) {
     this.tasksModel = new TasksModel(database);

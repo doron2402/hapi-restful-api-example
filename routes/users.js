@@ -36,6 +36,18 @@ exports.register = function(server, options, next) {
                     }
                 }
             }
+        },
+        {
+            method: 'DELETE',
+            path: '/users/{id}',
+            config: {
+                handler: usersController.destroy,
+                validate: {
+                    params: {
+                        id: Joi.number().required()
+                    }
+                }
+            }
         }
     ]);
 

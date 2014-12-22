@@ -10,7 +10,8 @@
 
 module.exports = function() {
     var store = {
-        users: [{id: 1, name: 'doron'}]
+        users: [{id: 1, name: 'doron'},{id: 2, name: 'Hector'}]
+
     };
 
     function Database() {};

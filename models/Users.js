@@ -30,14 +30,31 @@ UsersModel.prototype.getUsers = function(start, limit) {
 };
 
 UsersModel.prototype.getUserById = function(id) {
-    var task = this.findUserByProperty('id', id);
+    var user = this.findUserByProperty('id', id);
 
-    if (!task) {
+    if (!user) {
         throw new Error('User doesn\'t exists.');
     }
 
-    return task;
+    return user;
 };
 
+UsersModel.prototype.deleteUserById = function(id) {
+    if (!this.findUserByProperty('id', id)) {
+        throw new Error('User doesn\'t exists.');
+    }
+
+    var user, i, len;
+    var users = this.getAllUsers();
+    for (i = 0, len = users.length; i < len; i++) {
+        user = users[i];
+        if (user.id === id) {
+            // Removes task
+            users.splice(i, 1);
+            this.db.set('users', users);
+            return;
+        }
+    }
+};
 
 module.exports = UsersModel;
