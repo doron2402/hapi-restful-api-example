@@ -1,4 +1,16 @@
 'use strict';
+var is_prod = false;
+var env = 'dev';
+if (process.env.NODE_ENV && process.env.NODE_ENV.indexOf('prod') !== -1) {
+    is_prod = true;
+    env = 'prod';
+}
+
+if (!global.OT) {
+    global.OT = {};
+}
+
+OT.Settings = require('./settings').getSettings(env);
 
 var Database = require('./database');
 var Hapi = require('hapi');
@@ -12,15 +24,17 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 // Create server
-server.connection({
-    host: 'localhost',
-    port: 8000
-});
+server.connection(OT.Settings.server);
 
 // Add routes
 var plugins = [
     {
         register: require('./routes/tasks.js'),
+        options: {
+            database: database
+        }
+    },{
+        register: require('./routes/users.js'),
         options: {
             database: database
         }

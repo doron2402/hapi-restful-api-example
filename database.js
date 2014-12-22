@@ -9,7 +9,9 @@
 'use strict';
 
 module.exports = function() {
-    var store = {};
+    var store = {
+        users: [{id: 1, name: 'doron'}]
+    };
 
     function Database() {};
 
